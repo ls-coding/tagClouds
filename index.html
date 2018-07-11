@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>标签云</title>
+</head>
+<style>
+    body {
+        background: black;
+        overflow: hidden;
+    }
+</style>
+<body>
+<script>
+    //随机  标签云
+    let pos = [];
+    let data = ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF", "GGG", "HHH", "III", "JJJ", "KKK", "LLL", "MMM", "NNN", "OOO", "PPP", "QQQ", "RRR", "SSS", "TTT", "UUU", "VVV", "WWW", "XXX", "YYY", "ZZZ"];
+    let rTop, rLeft;
+    data.forEach(function (text) {
+        let letter = document.createElement("div");
+
+        do {
+            rTop = Math.floor(Math.random() * (innerHeight - 20));
+            rLeft = Math.floor(Math.random() * (innerWidth - 50));
+        } while (checkPos(rTop, rLeft));
+        let r = Math.floor(Math.random() * 156 + 100);
+        let g = Math.floor(Math.random() * 156 + 100);
+        let b = Math.floor(Math.random() * 156 + 100);
+        letter.style.cssText = `width:50px;height:20px;border-radius:10px;text-align:center;line-height:20px;color:white;box-shadow: 0 0 5px #3fb7c0;background:rgb(${r},${g},${b});position:absolute;top:${rTop}px;left:${rLeft}px;`;
+        letter.innerHTML = text;
+        document.body.appendChild(letter);
+        pos.push({t: rTop, l: rLeft, e: letter});
+    });
+
+    function checkPos(t, l) {
+        for (let i = 0; i < pos.length; i++) {
+            if (t > pos[i].t - 20 && t < pos[i].t + 20 && l > pos[i].l - 50 && l < pos[i].l + 50) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    let maxTop = innerHeight - 20;
+    let maxLeft = innerWidth - 50;
+    pos.forEach(function (obj) {
+        let left = obj.l;
+        let speed = Math.random() * 5;
+        setInterval(function () {
+            left += speed;
+            if (left >= maxLeft || left <= 0) {
+                speed *= -1;
+            }
+            obj.e.style.left = left + "px";
+        }, 50);
+        console.log(obj);
+    });
+</script>
+</body>
+</html>
